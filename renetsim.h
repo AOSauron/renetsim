@@ -33,3 +33,4 @@ int rns_addRepository(rnsGaph_t *rnsGraph, repository_t *repo);
 
 link_t *rns_newLink(repository_t *ra, unsigned int weight);
 int rns_addLink(repository_t *repo, link_t *link);
+int rns_directedEge(repository_t *from, repository_t *dest, unsigned int weight);

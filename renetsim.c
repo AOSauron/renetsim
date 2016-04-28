@@ -31,7 +31,7 @@ int rns_addRepository(rnsGaph_t *rnsGraph, repository_t *repo){
 }
 
 repository_t *rns_newRepository(int maxLinks, int x, int y){
-  
+
     repository_t *repo = (repository_t *) malloc(sizeof(repository_t*));
     repo->links = (link_t **) calloc(maxLinks, sizeof(link_t*));
     repo->maxLinks = maxLinks;
@@ -56,4 +56,11 @@ link_t *rns_newLink(repository_t *repo, unsigned int weight){
     link->weight = weight;
 
     return link;
+}
+
+int rns_directedEge(repository_t *from,
+                    repository_t *dest,
+                    unsigned int weight)
+{
+    return rns_addLink(from, rns_newLink(dest, weight));
 }

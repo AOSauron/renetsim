@@ -1,13 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <gvc.h>
 #include <inttypes.h>
+#include <gvc.h>
 
 #include "renderer.h"
 
 
 static void getNodeId(char *buff, repository_t *repo){
-    //use of intptr_t and PRIuPTR to supress warnings
+    //use of intptr_t and PRIuPTR to suppress warnings
     //TODO: parametred mask ?
     sprintf(buff, "%"PRIuPTR, (intptr_t) repo & 0x000fff);
 }
@@ -29,7 +29,7 @@ int render_graph(rnsGaph_t *rnsGraph,
     g = agopen("g", Agstrictdirected, 0);
 
     int i, j;
-    for (i=0; i<rnsGraph->maxsize; i++){
+    for (i=0; i<rnsGraph->size; i++){
         char buff[10];
         getNodeId(buff, rnsGraph->repos[i]);
         n = agnode(g, buff, 1);
