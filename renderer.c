@@ -1,9 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <gvc.h>
+#include <inttypes.h>
 
 #include "renderer.h"
 
+
+static void getNodeId(char *buff, repository_t *repo){
+    //use of intptr_t and PRIuPTR to supress warnings
+    //TODO: parametred mask ?
+    sprintf(buff, "%"PRIuPTR, (intptr_t) repo & 0x000fff);
+}
 
 int render_graph(rnsGaph_t *rnsGraph,
                 const char* filename,
@@ -23,11 +30,11 @@ int render_graph(rnsGaph_t *rnsGraph,
 
     int i, j;
     for (i=0; i<rnsGraph->maxsize; i++){
-        char buff[20];
-        sprintf(buff, "%p", rnsGraph->repos[i]);
+        char buff[10];
+        getNodeId(buff, rnsGraph->repos[i]);
         n = agnode(g, buff, 1);
-        for (j=0; j<rnsGraph->repos[i]->nbrLinks ; j++){
-          sprintf(buff, "%p", rnsGraph->repos[i]->links[j]->repo);
+        for (j=0; j<rnsGraph->repos[i]->nbrLinks; j++){
+          getNodeId(buff, rnsGraph->repos[i]->links[j]->repo);
           d = agnode(g, buff, 1);
           agedge(g, n, d, 0, 1);
         }

@@ -18,7 +18,7 @@ int rns_addRepository(rnsGaph_t *rnsGraph, repository_t *repo){
       return RNS_FAILURE;
     }
 
-    for (i=0; i<rnsGraph->size ; i++){
+    for (i=0; i<rnsGraph->size; i++){
       if (rnsGraph->repos[i]->position.x == repo->position.x &&
           rnsGraph->repos[i]->position.y == repo->position.y)
           {
@@ -31,6 +31,7 @@ int rns_addRepository(rnsGaph_t *rnsGraph, repository_t *repo){
 }
 
 repository_t *rns_newRepository(int maxLinks, int x, int y){
+  
     repository_t *repo = (repository_t *) malloc(sizeof(repository_t*));
     repo->links = (link_t **) calloc(maxLinks, sizeof(link_t*));
     repo->maxLinks = maxLinks;
