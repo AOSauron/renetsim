@@ -7,9 +7,9 @@
 
 
 static void getNodeId(char *buff, repository_t *repo){
-    //use of intptr_t and PRIuPTR to suppress warnings
+    //use of uintptr_t and PRIuPTR to suppress warnings
     //TODO: parametred mask ?
-    sprintf(buff, "%"PRIuPTR, (intptr_t) repo & 0x000fff);
+    sprintf(buff, "%"PRIuPTR, (uintptr_t) repo & 0x000fff);
 }
 
 int render_graph(rnsGaph_t *rnsGraph,
