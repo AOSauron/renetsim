@@ -5,7 +5,9 @@
 
 
 rnsGaph_t *rns_newGraph(int maxsize){
-    rnsGaph_t *graph = (rnsGaph_t*)malloc(sizeof(rnsGaph_t));
+    rnsGaph_t *graph;
+
+    graph = (rnsGaph_t*) malloc(sizeof(rnsGaph_t));
     graph->repos = (repository_t **)calloc(maxsize, sizeof(repository_t*));
     graph->maxsize = maxsize;
     graph->size = 0;
@@ -35,8 +37,9 @@ int rns_addRepository(rnsGaph_t *rnsGraph, repository_t *repo){
 }
 
 repository_t *rns_newRepository(int maxLinks, int x, int y){
+    repository_t *repo;
 
-    repository_t *repo = (repository_t *) malloc(sizeof(repository_t*));
+    repo = (repository_t *) malloc(sizeof(repository_t*));
     repo->links = (link_t **) calloc(maxLinks, sizeof(link_t*));
     repo->maxLinks = maxLinks;
     repo->nbrLinks = 0;
