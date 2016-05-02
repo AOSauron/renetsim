@@ -1,12 +1,15 @@
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "renetsim.h"
+
 
 rnsGaph_t *rns_newGraph(int maxsize){
     rnsGaph_t *graph = (rnsGaph_t*)malloc(sizeof(rnsGaph_t));
     graph->repos = (repository_t **)calloc(maxsize, sizeof(repository_t*));
     graph->maxsize = maxsize;
     graph->size = 0;
+    graph->nextId = 0;
 
     return graph;
 }
@@ -26,6 +29,7 @@ int rns_addRepository(rnsGaph_t *rnsGraph, repository_t *repo){
           }
     }
 
+    sprintf(repo->id, "%u", rnsGraph->nextId++);
     rnsGraph->repos[rnsGraph->size] = repo;
     return rnsGraph->size++;
 }

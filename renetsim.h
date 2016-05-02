@@ -17,10 +17,12 @@ struct repository_s {
     position_t position;
     int nbrLinks;
     int maxLinks;
+    char id[10];
 };
 
 typedef struct {
     repository_t **repos;
+    int nextId;
     int size;
     int maxsize;
 } rnsGaph_t;
