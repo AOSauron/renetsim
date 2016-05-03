@@ -1,4 +1,5 @@
 #define RNS_FAILURE -1
+#define RNS_SUCESS 0
 
 typedef struct repository_s repository_t;
 
@@ -15,16 +16,15 @@ typedef struct {
 struct repository_s {
     link_t **links;
     position_t position;
-    int nbrLinks;
-    int maxLinks;
+    unsigned int nbrLinks;
+    unsigned int maxLinks;
     char id[10];
 };
 
 typedef struct {
     repository_t **repos;
-    int nextId;
-    int size;
-    int maxsize;
+    unsigned int size;
+    unsigned int maxsize;
 } rnsGaph_t;
 
 

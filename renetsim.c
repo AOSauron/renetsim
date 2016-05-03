@@ -11,7 +11,6 @@ rnsGaph_t *rns_newGraph(int maxsize){
     graph->repos = (repository_t **)calloc(maxsize, sizeof(repository_t*));
     graph->maxsize = maxsize;
     graph->size = 0;
-    graph->nextId = 0;
 
     return graph;
 }
@@ -30,10 +29,10 @@ int rns_addRepository(rnsGaph_t *rnsGraph, repository_t *repo){
             return RNS_FAILURE;
           }
     }
+    sprintf(repo->id, "%u", rnsGraph->size);
+    rnsGraph->repos[rnsGraph->size++] = repo;
 
-    sprintf(repo->id, "%u", rnsGraph->nextId++);
-    rnsGraph->repos[rnsGraph->size] = repo;
-    return rnsGraph->size++;
+    return RNS_SUCESS;
 }
 
 repository_t *rns_newRepository(int maxLinks, int x, int y){
