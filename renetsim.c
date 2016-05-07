@@ -3,11 +3,10 @@
 
 #include "renetsim.h"
 
+rnsGraph_t *rns_newGraph(int maxsize){
+    rnsGraph_t *graph;
 
-rnsGaph_t *rns_newGraph(int maxsize){
-    rnsGaph_t *graph;
-
-    graph = (rnsGaph_t*) malloc(sizeof(rnsGaph_t));
+    graph = (rnsGraph_t*) malloc(sizeof(rnsGraph_t));
     graph->repos = (repository_t **)calloc(maxsize, sizeof(repository_t*));
     graph->maxsize = maxsize;
     graph->size = 0;
@@ -15,30 +14,40 @@ rnsGaph_t *rns_newGraph(int maxsize){
     return graph;
 }
 
-int rns_addRepository(rnsGaph_t *rnsGraph, repository_t *repo){
+int rns_addRepository(rnsGraph_t *rnsGraph, repository_t *repo,
+                      const char *id, bool_t check_integrity)
+{
     int i;
 
-    if (rnsGraph->size == rnsGraph->maxsize){
+    if (!rnsGraph || !repo || rnsGraph->size >= rnsGraph->maxsize){
       return RNS_FAILURE;
     }
 
-    for (i=0; i<rnsGraph->size; i++){
-      if (rnsGraph->repos[i]->position.x == repo->position.x &&
-          rnsGraph->repos[i]->position.y == repo->position.y)
-          {
-            return RNS_FAILURE;
-          }
+    if (check_integrity == RNS_TRUE){
+      for (i=0; i<rnsGraph->size; i++){
+        if (rnsGraph->repos[i]->position.x == repo->position.x &&
+            rnsGraph->repos[i]->position.y == repo->position.y)
+            {
+              return RNS_FAILURE;
+            }
+      }
     }
-    sprintf(repo->id, "%u", rnsGraph->size);
+
+    if (id){
+        sprintf(repo->id, "%s", id);
+    }else{
+        sprintf(repo->id, "%u", rnsGraph->size);
+    }
+
     rnsGraph->repos[rnsGraph->size++] = repo;
 
-    return RNS_SUCESS;
+    return RNS_SUCCESS;
 }
 
 repository_t *rns_newRepository(int maxLinks, int x, int y){
     repository_t *repo;
 
-    repo = (repository_t *) malloc(sizeof(repository_t*));
+    repo = (repository_t *) malloc(sizeof(repository_t));
     repo->links = (link_t **) calloc(maxLinks, sizeof(link_t*));
     repo->maxLinks = maxLinks;
     repo->nbrLinks = 0;
@@ -49,7 +58,7 @@ repository_t *rns_newRepository(int maxLinks, int x, int y){
 }
 
 int rns_addLink(repository_t *repo, link_t *link){
-    if (repo->nbrLinks != repo->maxLinks && link->repo != repo){
+    if (repo && repo->nbrLinks < repo->maxLinks && link && link->repo != repo){
       repo->links[repo->nbrLinks] = link;
       return repo->nbrLinks++;
     }
@@ -64,9 +73,19 @@ link_t *rns_newLink(repository_t *repo, unsigned int weight){
     return link;
 }
 
-int rns_directedEge(repository_t *from,
+int rns_directedEdge(repository_t *from,
                     repository_t *dest,
                     unsigned int weight)
 {
     return rns_addLink(from, rns_newLink(dest, weight));
+}
+
+repository_t *repository_by_id(rnsGraph_t *graph, const char *id){
+    int i;
+
+    for (i=0; i<graph->size; i++){
+      if (graph->repos[i]->id && strcmp(graph->repos[i]->id, id) == 0){
+          return graph->repos[i];
+      }
+    }
 }

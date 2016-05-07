@@ -1,0 +1,44 @@
+{
+	"graph": {
+
+		"directed": false,
+
+		"nodes": [{
+			"id": "A",
+			"edges" : 4,
+			"position" : [-1,	1]
+		}, {
+			"id": "B",
+			"edges": 2,
+			"position" : [-2,1]
+		},
+			{
+			"id" : "C",
+			"edges": 4,
+			"position": [1,1]
+	  },
+		{
+			"id" : "E",
+			"edges": 2,
+			"position": [1,0]
+		}],
+
+		"edges": [{
+			"source": "A",
+			"target": "B",
+			"weight" : 1
+		},{
+			"source": "B",
+			"target": "C",
+			"weight" : 5
+		},{
+			"source": "A",
+			"target": "C",
+			"weight" : 10
+		},{
+			"source": "C",
+			"target": "E",
+			"weight" : 7
+		}]
+	}
+}

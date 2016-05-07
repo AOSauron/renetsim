@@ -1,26 +1,38 @@
 #include <stdlib.h>
 
-#include "renetsim.h"
+
+#include "input.h"
+#include "renderer.h"
 
 int main(int argc, char **argv){
 
-    repository_t *ra = rns_newRepository(1, 0, 0);
-    repository_t *rb = rns_newRepository(2, 0, 1);
-    repository_t *rc = rns_newRepository(0, -5, 8);
-    repository_t *rd = rns_newRepository(4, 40, 8);
+    // repository_t *ra = rns_newRepository(1, 0, 0);
+    // repository_t *rb = rns_newRepository(2, 0, 1);
+    // repository_t *rc = rns_newRepository(0, -5, 8);
+    // repository_t *rd = rns_newRepository(4, 40, 8);
+    //
+    // rnsGraph_t *graph = rns_newGraph(10);
+    //
+    // rns_addRepository(graph, ra, NULL, RNS_FALSE);
+    // rns_addRepository(graph, rb, NULL, RNS_FALSE);
+    // rns_addRepository(graph, rc, NULL, RNS_FALSE);
+    // rns_addRepository(graph, rd, NULL, RNS_FALSE);
+    //
+    // rns_directedEdge(ra, rb, 1);
+    // rns_directedEdge(rb, ra, 1);
+    // rns_directedEdge(rb, rc, 5);
+    // rns_directedEdge(rd, rc, 5);
 
-    rnsGaph_t *graph = rns_newGraph(10);
+    rendering_ctx_t *c2;
+    rendering_ctx_t *c1;
+    struct json_object *o;
 
-    rns_addRepository(graph, ra);
-    rns_addRepository(graph, rb);
-    rns_addRepository(graph, rc);
-    rns_addRepository(graph, rd);
+    o = parse_file_json("input/input.json");
+    c1  = graph_from_json(o);
+    render_graph(c1, "output/result-json.jpg", "jpg");
 
-    rns_directedEge(ra, rb, 1);
-    rns_directedEge(rb, ra, 1);
-    rns_directedEge(rb, rc, 5);
-    rns_directedEge(rd, rc, 5);
+    c2 = graph_from_rns_file("input/input.rns");
+    render_graph(c2, "output/result-rns.jpg", "jpg");
 
-
-    return render_graph(graph, "result.jpg", "jpg");
+    return 0;
 }
