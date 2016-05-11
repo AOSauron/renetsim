@@ -39,7 +39,7 @@ int render_graph(rendering_ctx_t *rctx,
         for (j=0; j<rnsGraph->repos[i]->nbrLinks; j++){
           d = agnode(g, rnsGraph->repos[i]->links[j]->repo->id, 1);
           e = agedge(g, n, d, 0, 1);
-          sprintf(w, "%li", cost(rnsGraph->repos[i], rnsGraph->repos[i]->links[j]));
+          sprintf(w, "%1.3g", (double) cost(rnsGraph->repos[i], rnsGraph->repos[i]->links[j]));
           agsafeset(e, "label", w, "");
         }
     }
