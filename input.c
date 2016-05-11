@@ -24,7 +24,8 @@ typedef enum {
     E_INP
 } error_t;
 
-static void error(error_t err){
+static inline
+void error(error_t err){
     const char *msg;
 
     switch (err){
@@ -39,7 +40,8 @@ static void error(error_t err){
     exit(EXIT_FAILURE);
 }
 
-static bool_t s_check(input_section_t s1, input_section_t s2){
+static inline
+bool_t s_check(input_section_t s1, input_section_t s2){
     if (s1 != s2){
       error(E_FMT);
     }

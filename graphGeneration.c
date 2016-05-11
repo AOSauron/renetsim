@@ -12,15 +12,18 @@
 
 
 // a<b is assumed
-static int rand_bound(int a, int b){
+static inline
+int rand_bound(int a, int b){
     return rand()%(b-a)+a;
 }
 
-static bool_t prand(double p){
+static inline
+bool_t prand(double p){
       return  rand() < p*((double) RAND_MAX + 1.0);
 }
 
-static void directedEdgeRealloc(repository_t *ra, repository_t *rb, int weight){
+static inline
+void directedEdgeRealloc(repository_t *ra, repository_t *rb, int weight){
     link_t *link;
 
     link = rns_newLink(rb, weight);
