@@ -3,6 +3,7 @@
 
 #include "input.h"
 #include "renderer.h"
+#include "graphGeneration.h"
 
 int main(int argc, char **argv){
 
@@ -34,5 +35,12 @@ int main(int argc, char **argv){
     c2 = graph_from_rns_file("input/input.rns");
     render_graph(c2, "output/result-rns.jpg", "jpg");
 
+    rendering_ctx_t *ctx = new_rctx();
+    rnsGraph_t *graph = randomGeneration(5);
+
+    ctx->directed = RNS_FALSE;
+    ctx->graph = graph;
+
+    render_graph(ctx, "output/result-random.jpg", "jpg");
     return 0;
 }

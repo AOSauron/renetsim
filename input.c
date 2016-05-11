@@ -57,7 +57,7 @@ rendering_ctx_t *graph_from_rns_file(const char *filename){
     char type[8];
     char id[10];
     char id2[10];
-    unsigned int n, w;
+    int n, w;
     int x, y;
 
     fp = fopen(filename, "r");
@@ -88,7 +88,7 @@ rendering_ctx_t *graph_from_rns_file(const char *filename){
               }
               if (strncmp(line, "digraph", 7) == 0){
                   ctx->directed = RNS_TRUE;
-              }else if (!strncmp(type, "graph", 5)){
+              }else if (strncmp(type, "graph", 5) == 0){
                   ctx->directed = RNS_FALSE;
               }else{ error(E_FMT); }
 
@@ -121,6 +121,7 @@ rendering_ctx_t *graph_from_rns_file(const char *filename){
                       error(E_INT);
                   }
               }else{
+
                   error(E_INT);
               }
               break;
@@ -171,7 +172,7 @@ rendering_ctx_t *graph_from_json(struct json_object *json){
     repository_t *repo, *src, *dest;
     rnsGraph_t *graph;
     char const *id;
-    unsigned int nNodes, nEdges, idx, n, weight;
+    int nNodes, nEdges, idx, n, weight;
     int x, y;
 
     g = json_object_object_get(json, "graph");

@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <math.h>
 
 #include "renetsim.h"
 
@@ -36,7 +37,7 @@ int rns_addRepository(rnsGraph_t *rnsGraph, repository_t *repo,
     if (id){
         sprintf(repo->id, "%s", id);
     }else{
-        sprintf(repo->id, "%u", rnsGraph->size);
+        sprintf(repo->id, "%i", rnsGraph->size);
     }
 
     rnsGraph->repos[rnsGraph->size++] = repo;
@@ -65,7 +66,7 @@ int rns_addLink(repository_t *repo, link_t *link){
     return RNS_FAILURE;
 }
 
-link_t *rns_newLink(repository_t *repo, unsigned int weight){
+link_t *rns_newLink(repository_t *repo, int weight){
     link_t *link = malloc(sizeof(link_t));
     link->repo = repo;
     link->weight = weight;
@@ -75,7 +76,7 @@ link_t *rns_newLink(repository_t *repo, unsigned int weight){
 
 int rns_directedEdge(repository_t *from,
                     repository_t *dest,
-                    unsigned int weight)
+                    int weight)
 {
     return rns_addLink(from, rns_newLink(dest, weight));
 }
@@ -88,4 +89,13 @@ repository_t *repository_by_id(rnsGraph_t *graph, const char *id){
           return graph->repos[i];
       }
     }
+}
+
+long distance(position_t a, position_t b){
+    return sqrt( pow(b.x - a.x, 2) +
+           pow(b.y - a.y, 2) );
+}
+
+long cost(repository_t *repo, link_t *link){
+    return distance(repo->position, link->repo->position) * link->weight;
 }

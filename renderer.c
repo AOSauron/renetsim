@@ -19,6 +19,7 @@ int render_graph(rendering_ctx_t *rctx,
     GVC_t *gvc;
     rnsGraph_t *rnsGraph;
     char w[64];
+    char buff[64];
 
     FILE *fp;
     fp = fopen(filename, "w+");
@@ -38,7 +39,7 @@ int render_graph(rendering_ctx_t *rctx,
         for (j=0; j<rnsGraph->repos[i]->nbrLinks; j++){
           d = agnode(g, rnsGraph->repos[i]->links[j]->repo->id, 1);
           e = agedge(g, n, d, 0, 1);
-          sprintf(w, "%d", rnsGraph->repos[i]->links[j]->weight);
+          sprintf(w, "%li", cost(rnsGraph->repos[i], rnsGraph->repos[i]->links[j]));
           agsafeset(e, "label", w, "");
         }
     }
