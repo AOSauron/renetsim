@@ -1,26 +1,31 @@
 {
 	"graph": {
 
-		"directed": false,
+		"directed": true,
 
 		"nodes": [{
 			"id": "A",
-			"edges" : 4,
-			"position" : [-1,	1]
+			"edges" : 2,
+			"position" : [-80,1]
 		}, {
 			"id": "B",
-			"edges": 2,
+			"edges": 1,
 			"position" : [-2,1]
 		},
 			{
 			"id" : "C",
-			"edges": 4,
+			"edges": 2,
 			"position": [1,1]
 	  },
 		{
 			"id" : "E",
-			"edges": 2,
+			"edges": 0,
 			"position": [1,0]
+		},
+		{
+			"id" : "F",
+			"edges": 0,
+			"position": [1,8]
 		}],
 
 		"edges": [{
@@ -39,6 +44,10 @@
 			"source": "C",
 			"target": "E",
 			"weight" : 7
+		},{
+			"source": "C",
+			"target": "F",
+			"weight" : 10
 		}]
 	}
 }

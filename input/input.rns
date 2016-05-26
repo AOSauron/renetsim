@@ -1,13 +1,15 @@
 SET_GRAPH
-graph:3
+digraph:4
 
 
 SET_REPOSITORIES
 A:1:(1,2)
 B:2:(1,1)
 C:1:(0,0)
+D:1:(1,5)
 
 
 SET_EDGES
 A->B:1
-C->B:3
+B->C:3
+B->D:4

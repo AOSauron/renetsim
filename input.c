@@ -36,16 +36,16 @@ void error(error_t err){
       case E_INP:
         msg = "Cannot read input file"; break;
     }
-    printf("[ERROR] %s\n", msg);
+    fprintf(stderr, "[ERROR] %s\n", msg);
     exit(EXIT_FAILURE);
 }
 
 static inline
 bool_t s_check(input_section_t s1, input_section_t s2){
     if (s1 != s2){
-      error(E_FMT);
+        error(E_FMT);
     }
-    return RNS_TRUE;
+    return _TRUE;
 }
 
 rendering_ctx_t *graph_from_rns_file(const char *filename){
@@ -89,9 +89,9 @@ rendering_ctx_t *graph_from_rns_file(const char *filename){
                   error(E_FMT);
               }
               if (strncmp(line, "digraph", 7) == 0){
-                  ctx->directed = RNS_TRUE;
+                  ctx->directed = _TRUE;
               }else if (strncmp(type, "graph", 5) == 0){
-                  ctx->directed = RNS_FALSE;
+                  ctx->directed = _FALSE;
               }else{ error(E_FMT); }
 
               graph = rns_newGraph(n);
@@ -103,7 +103,9 @@ rendering_ctx_t *graph_from_rns_file(const char *filename){
                   error(E_FMT);
               };
               repo = rns_newRepository(n, x, y);
-              rns_addRepository(graph, repo, id, RNS_TRUE);
+              if (rns_addRepository(graph, repo, id, _TRUE) == FAILURE){
+                  error(E_INT);
+              }
               break;
 
           case S_EDGES:
@@ -114,16 +116,15 @@ rendering_ctx_t *graph_from_rns_file(const char *filename){
               dest = repository_by_id(graph, id2);
 
               if (src && dest){
-                  if (rns_directedEdge(src, dest, w) == RNS_FAILURE){
+                  if (rns_directedEdge(src, dest, w) == FAILURE){
                       error(E_INT);
                   };
                   if (!ctx->directed &&
-                      rns_directedEdge(dest, src, w) == RNS_FAILURE)
+                      rns_directedEdge(dest, src, w) == FAILURE)
                   {
                       error(E_INT);
                   }
               }else{
-
                   error(E_INT);
               }
               break;
@@ -137,8 +138,6 @@ rendering_ctx_t *graph_from_rns_file(const char *filename){
 
       return ctx;
 }
-
-#ifdef WITH_JSON
 
 struct json_object *parse_file_json(const char *filename){
 
@@ -174,8 +173,8 @@ rendering_ctx_t *graph_from_json(struct json_object *json){
     repository_t *repo, *src, *dest;
     rnsGraph_t *graph;
     char const *id;
-    int nNodes, nEdges, idx, n, weight;
-    int x, y;
+    size_t nNodes, nEdges, idx, n;
+    int x, y, weight;
 
     g = json_object_object_get(json, "graph");
     directed = json_object_get_boolean(json_object_object_get(g, "directed"));
@@ -195,9 +194,8 @@ rendering_ctx_t *graph_from_json(struct json_object *json){
         y = json_object_get_int(json_object_array_get_idx(position, 1));
 
         repo = rns_newRepository(n, x, y);
-        strcpy(repo->id, id);
 
-        if (rns_addRepository(graph, repo, id, RNS_TRUE) == RNS_FAILURE)
+        if (rns_addRepository(graph, repo, id, _TRUE) == FAILURE)
         {
           error(E_INT);
           return;
@@ -213,15 +211,15 @@ rendering_ctx_t *graph_from_json(struct json_object *json){
         dest = repository_by_id(graph, id);
 
         if (!src || !dest){
-          error(E_INT);
+            error(E_INT);
         }
 
-        if(rns_directedEdge(src, dest, weight) == RNS_FAILURE){
-              error(E_INT);
+        if(rns_directedEdge(src, dest, weight) == FAILURE){
+            error(E_INT);
         };
 
-        if(!directed && rns_directedEdge(dest, src, weight) == RNS_FAILURE){
-              error(E_INT);
+        if(!directed && rns_directedEdge(dest, src, weight) == FAILURE){
+            error(E_INT);
         }
     }
 
@@ -230,5 +228,3 @@ rendering_ctx_t *graph_from_json(struct json_object *json){
     ctx->graph = graph;
     return ctx;
 }
-
-#endif

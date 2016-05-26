@@ -33,16 +33,39 @@ int render_graph(rendering_ctx_t *rctx,
         g = agopen("g", Agstrictundirected, 0);
     }
 
-    int i, j;
+    size_t i, j;
     for (i=0; i<rnsGraph->size; i++){
+        if ( !rnsGraph->repos[i]) {
+            continue;
+        }
         n = agnode(g, rnsGraph->repos[i]->id, 1);
-        for (j=0; j<rnsGraph->repos[i]->nbrLinks; j++){
+
+        for (j=0; j<rnsGraph->repos[i]->maxLinks; j++){
+          if (!rnsGraph->repos[i]->links[j]){
+              continue;
+          }
           d = agnode(g, rnsGraph->repos[i]->links[j]->repo->id, 1);
           e = agedge(g, n, d, 0, 1);
-          sprintf(w, "%1.3g", (double) cost(rnsGraph->repos[i], rnsGraph->repos[i]->links[j]));
+          sprintf(w, "%1.3g", (double) cost(rnsGraph->repos[i],
+                                            rnsGraph->repos[i]->links[j]));
           agsafeset(e, "label", w, "");
+          if (rnsGraph->repos[i]->links[j]->is_path){
+              agsafeset(e, "color", "red", "");
+          }
         }
     }
+
+    // char *args[] = {
+    //   "sfdp",
+    //   "-x",
+    //   "-Tpng",
+    //   "-Goverlap=scale",
+    //   "-GK=5.0",
+    //   "-ooutput/random.png"
+    // };
+    // gvParseArgs (gvc, sizeof(args)/sizeof(char*), args);
+    // gvLayoutJobs(gvc, g);
+    // gvRenderJobs(gvc, g);
 
     gvLayout(gvc, g, "dot");
     gvRender(gvc, g, format, fp);
