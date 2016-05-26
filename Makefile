@@ -6,7 +6,7 @@ OBJECTS = main.o renetsim.o renderer.o pathfinding.o graphGeneration.o input.o
 all : rns
 
 rns : $(OBJECTS)
-		$(CC) $(LDFLAGS) -o $@ $(OBJECTS)
+		$(CC) -o $@ $(OBJECTS) $(LDFLAGS)
 
 .c.o:
 		$(CC) $(CFLAGS) -c $<
