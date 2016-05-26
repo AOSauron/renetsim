@@ -118,11 +118,11 @@ int main(int argc, char *argv[]){
 
 
      if (o && e){
-        render_graph(ctx, outputFile, ext);
+         render_graph(ctx, outputFile, ext);
      }
 
      if(r && m){
-          rns_freeGraph(ctx->graph);
+         rns_freeGraph(ctx->graph);
      }
      free(ctx);
 
