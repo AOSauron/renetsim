@@ -1,6 +1,7 @@
 #include <stdlib.h>
-#include <unistd.h>
 #include <stdio.h>
+#include <string.h>
+#include <unistd.h>
 
 #include "input.h"
 #include "renderer.h"
@@ -9,8 +10,18 @@
 
 int main(int argc, char *argv[]){
 
-    int i,f,e,o,n,p,s,d,r,l,m,c;
+    int i,f,e,o,p,s,d,r,m,c;
     int a;
+
+    i=0;
+    f=0;
+    e=0;
+    p=0;
+    s=0;
+    d=0;
+    r=0;
+    m=0;
+    c=0;
 
     char *inputFile;
     char *fmt;
@@ -19,7 +30,7 @@ int main(int argc, char *argv[]){
     char *mode;
     char *start;
     char *dest;
-    int index;
+
     size_t nodes;
     size_t maxedges;
 
@@ -27,7 +38,7 @@ int main(int argc, char *argv[]){
 
     if (argc == 1){
           fprintf (stderr, "options: i,f,e,o,m,p,s,d,l,n,c\n");
-          return;
+          return 0;
     }
 
     c = 0;
@@ -70,11 +81,9 @@ int main(int argc, char *argv[]){
               r = 1;
               break;
           case 'l':
-              l = 1;
               maxedges = atoi(optarg);
               break;
           case 'n':
-              n = 1;
               nodes = atoi(optarg);
               break;
           case 'c':
@@ -84,7 +93,7 @@ int main(int argc, char *argv[]){
               fprintf (stderr, "Option -%c requires an argument.\n", optopt);
               return 1;
           default :
-              return;
+              return 1;
         }
      }
 
@@ -92,7 +101,7 @@ int main(int argc, char *argv[]){
           if (!strcmp(fmt, "rns")){
               ctx = graph_from_rns_file(inputFile);
           }else if (!strcmp(fmt, "json")){
-              ctx = graph_from_json(parse_file_json("input/input.json"));
+              ctx = graph_from_json(parse_file_json(inputFile));
           }else{
               return 1;
           }
@@ -116,7 +125,6 @@ int main(int argc, char *argv[]){
                                     repository_by_id(ctx->graph,dest));
      }
 
-
      if (o && e){
          render_graph(ctx, outputFile, ext);
      }
@@ -124,7 +132,10 @@ int main(int argc, char *argv[]){
      if(r && m){
          rns_freeGraph(ctx->graph);
      }
-     free(ctx);
+
+     if(i && f){
+         free(ctx);
+     }
 
      return 0;
 }

@@ -1,9 +1,9 @@
 #include <fcntl.h>
+#include <unistd.h>
 #include <sys/mman.h>
 #include <sys/stat.h>
 #include <string.h>
 #include <stdio.h>
-#include <stdlib.h>
 
 #include "input.h"
 
@@ -55,7 +55,6 @@ rendering_ctx_t *graph_from_rns_file(const char *filename){
     repository_t *repo, *src, *dest;
     FILE *fp;
     char line[1024];
-    char s[2];
     char type[8];
     char id[32];
     char id2[32];
@@ -128,6 +127,8 @@ rendering_ctx_t *graph_from_rns_file(const char *filename){
                   error(E_INT);
               }
               break;
+          case S_NONE:
+              break;
         }
       }
 
@@ -149,19 +150,19 @@ struct json_object *parse_file_json(const char *filename){
     fd = open(filename, O_RDONLY);
     if (fd < 0 || fstat(fd, &fs) == -1){
       error(E_INP);
-      return;
+      return NULL;
     }
     fmap = mmap(0, fs.st_size, PROT_READ, MAP_PRIVATE, fd, 0);
     close(fd);
 
     if (fmap == MAP_FAILED){
-      return;
+      return NULL;
     }
     json = json_tokener_parse(fmap);
 
     if (!json){
       error(E_INP);
-      return;
+      return NULL;
     }
     return json;
 }
@@ -198,7 +199,7 @@ rendering_ctx_t *graph_from_json(struct json_object *json){
         if (rns_addRepository(graph, repo, id, _TRUE) == FAILURE)
         {
           error(E_INT);
-          return;
+          return NULL;
         };
     }
 

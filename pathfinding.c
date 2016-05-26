@@ -80,7 +80,7 @@ void apply_dijkstra(rnsGraph_t *graph, repository_t *start,
 {
     size_t i,k,j;
     min_ret_t min;
-    path_t *a, *b, *tmp;
+    path_t *a, *b;
     path_t **paths;
     unsigned long cc;
 

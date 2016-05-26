@@ -1,7 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include <math.h>
-#include <stdint.h>
+
 
 #include "renetsim.h"
 
@@ -81,7 +82,7 @@ int rns_addRepository(rnsGraph_t *rnsGraph, repository_t *repo,
     if (id){
         snprintf(repo->id, sizeof(repo->id), "%s", id);
     }else{
-        snprintf(repo->id, sizeof(repo->id), "%d", rnsGraph->size);
+        snprintf(repo->id, sizeof(repo->id), "%li", rnsGraph->size);
     }
 
     rnsGraph->repos[rnsGraph->size++] = repo;
