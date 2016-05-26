@@ -57,8 +57,8 @@ rendering_ctx_t *graph_from_rns_file(const char *filename){
     char line[1024];
     char s[2];
     char type[8];
-    char id[10];
-    char id2[10];
+    char id[32];
+    char id2[32];
     int n, w;
     int x, y;
 

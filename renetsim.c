@@ -79,9 +79,9 @@ int rns_addRepository(rnsGraph_t *rnsGraph, repository_t *repo,
     }
 
     if (id){
-        sprintf(repo->id, "%s", id);
+        snprintf(repo->id, sizeof(repo->id), "%s", id);
     }else{
-        sprintf(repo->id, "%d", rnsGraph->size);
+        snprintf(repo->id, sizeof(repo->id), "%d", rnsGraph->size);
     }
 
     rnsGraph->repos[rnsGraph->size++] = repo;
