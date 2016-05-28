@@ -13,16 +13,6 @@ int main(int argc, char *argv[]){
     int i,f,e,o,p,s,d,r,m,c;
     int a;
 
-    i=0;
-    f=0;
-    e=0;
-    p=0;
-    s=0;
-    d=0;
-    r=0;
-    m=0;
-    c=0;
-
     char *inputFile;
     char *fmt;
     char *ext;
@@ -35,6 +25,16 @@ int main(int argc, char *argv[]){
     size_t maxedges;
 
     rendering_ctx_t *ctx;
+
+    i=0;
+    f=0;
+    e=0;
+    p=0;
+    s=0;
+    d=0;
+    r=0;
+    m=0;
+    c=0;
 
     if (argc == 1){
           fprintf (stderr, "options: i,f,e,o,m,p,s,d,l,n,c\n");
