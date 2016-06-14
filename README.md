@@ -45,3 +45,17 @@ Utilisation
 
 	    ./rns -iinput/input.rns -frns -ooutput.svg -esvg -p -sA -dD
 	    ./rns -r -mdigraph -n10 -l4 -otest.png -epng -c -p -s0 -d9
+	    
+RNS Format
+
+
+	SET_GRAPH
+	<digraph | graph>:<nombre de dépots>
+	
+	SET_REPOSITORIES
+	<Nom dépôt 1>:<nombre d'arcs sortant du dépôt 1>:(<x1>,<y1>)
+	<Nom dépôt 2>:<nombre d'arcs sortant du dépôt 2>:(<x2>,<y2>)
+	
+	SET_EDGES
+	<Nom dépôt 1>-><Nom dépôt 2>:<poids du lien les liant>
+	<Nom dépôt 2>-><Nom dépôt 1>:<poids du lien les liant>
